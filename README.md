@@ -23,11 +23,11 @@ Analyses were conducted in R using:
 
 In unadjusted logistic regression analyses, uninsured respondents had 1.68 times the odds of reporting unmet medical need compared to insured respondents.
 
-After adjusting for age, sex, poverty status, and race/ethnicity, uninsured respondents continued to have higher odds of unmet medical need.
+After adjusting for age, sex, poverty status, and race/ethnicity, uninsured respondents continued to have higher odds of unmet medical need, suggesting that insurance coverage remained independently associated with access to care.
 
-Lower-income respondents experienced higher levels of unmet medical need even among the insured, suggesting that socioeconomic barriers to care persist beyond insurance coverage alone.
+Lower-income respondents experienced higher levels of unmet medical need even among the insured, indicating that socioeconomic barriers to care persist beyond insurance coverage alone.
 
-Several demographic and socioeconomic variables showed meaningful differences in odds of unmet medical need, highlighting the complex factors associated with healthcare access in NYC.
+Differences in odds of unmet medical need were also observed across age and racial/ethnic groups, highlighting the complex demographic and socioeconomic factors associated with healthcare access in NYC.
 
 ---
 
