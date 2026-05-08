@@ -19,26 +19,13 @@ Analyses were conducted in R using:
 
 ---
 
-## Key Findings
+## Results
 
-- Uninsured respondents had higher odds of unmet medical need compared to insured respondents.
-- After adjustment for age, sex, and poverty status, uninsured respondents had 1.45 times the odds of reporting unmet medical need.
-- Lower-income respondents experienced higher unmet need even among the insured.
+In unadjusted logistic regression analyses, uninsured respondents had 1.68 times the odds of reporting unmet medical need compared to insured respondents.
 
----
+After adjusting for age, sex, and poverty status, uninsured respondents had 1.45 times the odds of unmet medical need.
 
-## Data Source
-
-New York City Community Health Survey (CHS) 2020
-
----
-
-## Repository Structure
-
-- `01_load_data.R` — loads raw CHS SAS dataset
-- `02_clean_data.R` — cleans and recodes analytic variables
-- `03_eda.R` — exploratory analyses and visualizations
-- `04_analysis.R` — logistic regression analyses
+Lower-income respondents experienced higher levels of unmet medical need even among the insured, suggesting that socioeconomic barriers to care persist beyond insurance coverage alone.
 
 ---
 
@@ -53,17 +40,17 @@ New York City Community Health Survey (CHS) 2020
 
 ---
 
-## Results
+## Repository Structure
 
-In unadjusted logistic regression analyses, uninsured respondents had 1.68 times the odds of reporting unmet medical need compared to insured respondents.
-
-After adjusting for age, sex, and poverty status, uninsured respondents had 1.45 times the odds of unmet medical need.
-
-Lower-income respondents experienced higher levels of unmet medical need even among the insured, suggesting that socioeconomic barriers to care persist beyond insurance coverage alone.
+- `01_load_data.R` — loads raw CHS SAS dataset
+- `02_clean_data.R` — cleans and recodes analytic variables
+- `03_eda.R` — exploratory analyses and visualizations
+- `04_analysis.R` — logistic regression analyses
 
 ---
 
-## Note
+## Data Source
 
-The raw CHS dataset is not included in this repository.
-Data are publicly available through the NYC Department of Health.
+Data were obtained from the 2020 NYC Community Health Survey (CHS).
+
+The raw dataset is not included in this repository. Publicly available CHS data can be accessed through the NYC Department of Health.
