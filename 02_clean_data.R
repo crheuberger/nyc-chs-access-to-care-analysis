@@ -18,17 +18,57 @@ chs$no_care <- factor(chs$didntgetcare20,
                       levels = c(1, 2),
                       labels = c("Yes", "No"))
 
+# -------------------------
 # Covariates
-chs$age_group <- factor(chs$agegroup)
+# -------------------------
 
-chs$sex <- factor(chs$birthsex,
-                  levels = c(1, 2),
-                  labels = c("Male", "Female"))
+# Age group
+chs$age_group <- factor(
+  chs$agegroup,
+  levels = c(1, 2, 3, 4),
+  labels = c(
+    "18–24",
+    "25–44",
+    "45–64",
+    "65+"
+  )
+)
 
-chs$race <- factor(chs$newrace)
+# Sex assigned at birth
+chs$sex <- factor(
+  chs$birthsex,
+  levels = c(1, 2),
+  labels = c("Male", "Female")
+)
 
-chs$poverty <- factor(chs$imputed_povertygroup)
+# Race/ethnicity
+chs$race <- factor(
+  chs$newrace,
+  levels = c(1, 2, 3, 4, 5),
+  labels = c(
+    "White",
+    "Black",
+    "Hispanic",
+    "Asian/PI",
+    "Other"
+  )
+)
 
-# Check everything
-table(chs$insured_factor, useNA = "ifany")
-table(chs$no_care, useNA = "ifany")
+# Household poverty level
+chs$poverty <- factor(
+  chs$imputed_povertygroup,
+  levels = c(1, 2, 3, 4, 5),
+  labels = c(
+    "<100% FPL",
+    "100–199% FPL",
+    "200–399% FPL",
+    "400–599% FPL",
+    "600%+ FPL"
+  )
+)
+
+# Check covariates
+table(chs$age_group, useNA = "ifany")
+table(chs$sex, useNA = "ifany")
+table(chs$race, useNA = "ifany")
+table(chs$poverty, useNA = "ifany")
