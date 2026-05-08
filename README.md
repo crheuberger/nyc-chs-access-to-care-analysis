@@ -41,7 +41,7 @@ Several demographic and socioeconomic variables showed meaningful differences in
 ![Poverty Plot](unmet_care_by_insurance_poverty.png)
 
 ### Adjusted Odds Ratios for Unmet Medical Need
-![Adjusted Odds Ratios](output/adjusted_odds_ratios_forest_plot.png)
+![Adjusted Odds Ratios](adjusted_odds_ratios_forest_plot.png)
 
 ---
 
