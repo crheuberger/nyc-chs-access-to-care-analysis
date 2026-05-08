@@ -50,3 +50,20 @@ New York City Community Health Survey (CHS) 2020
 ### Unmet Medical Need by Insurance Status and Poverty
 
 ![Poverty Plot](unmet_care_by_insurance_poverty.png)
+
+---
+
+## Results
+
+In unadjusted logistic regression analyses, uninsured respondents had 1.68 times the odds of reporting unmet medical need compared to insured respondents.
+
+After adjusting for age, sex, and poverty status, uninsured respondents had 1.45 times the odds of unmet medical need.
+
+Lower-income respondents experienced higher levels of unmet medical need even among the insured, suggesting that socioeconomic barriers to care persist beyond insurance coverage alone.
+
+---
+
+## Note
+
+The raw CHS dataset is not included in this repository.
+Data are publicly available through the NYC Department of Health.
