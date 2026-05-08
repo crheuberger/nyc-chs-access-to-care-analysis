@@ -43,4 +43,10 @@ New York City Community Health Survey (CHS) 2020
 ---
 
 ## Example Visualization
+### Unmet Medical Need by Insurance Status
 
+![Insurance Plot](unmet_care_by_insurance.png)
+
+### Unmet Medical Need by Insurance Status and Poverty
+
+![Poverty Plot](unmet_care_by_insurance_poverty.png)
