@@ -1,9 +1,11 @@
 # =========================
 # 04_analysis.R
-# Logistic Regression
+# Survey-Weighted Logistic Regression
 # =========================
 
 source("02_clean_data.R")
+
+library(survey)
 library(dplyr)
 library(broom)
 library(ggplot2)
@@ -13,61 +15,76 @@ library(ggplot2)
 # -------------------------
 
 # Outcome: 1 = did not receive needed care, 0 = received needed care
-chs$no_care_binary <- ifelse(chs$didntgetcare20 == 1, 1,
-                             ifelse(chs$didntgetcare20 == 2, 0, NA))
+chs$no_care_binary <- ifelse(
+  chs$didntgetcare20 == 1, 1,
+  ifelse(chs$didntgetcare20 == 2, 0, NA)
+)
 
 table(chs$no_care_binary, useNA = "ifany")
 
+# -------------------------
+# Relabel poverty variable
+# -------------------------
+
+chs$poverty <- factor(
+  chs$imputed_povertygroup,
+  levels = c(1, 2, 3, 4, 5),
+  labels = c(
+    "<100% FPL",
+    "100–199% FPL",
+    "200–399% FPL",
+    "400–599% FPL",
+    "600%+ FPL"
+  )
+)
 
 # -------------------------
-# Unadjusted logistic regression
+# Create survey design object
 # -------------------------
 
-model_unadjusted <- glm(
-  no_care_binary ~ insured_factor,
+chs_design <- svydesign(
+  ids = ~1,
+  strata = ~strata,
+  weights = ~wt21_dual,
   data = chs,
-  family = binomial
+  nest = TRUE
+)
+
+# -------------------------
+# Model 1: Unadjusted weighted logistic regression
+# -------------------------
+
+model_unadjusted <- svyglm(
+  no_care_binary ~ insured_factor,
+  design = chs_design,
+  family = quasibinomial()
 )
 
 summary(model_unadjusted)
 
-
-# Odds ratios and 95% confidence intervals
-or_unadjusted <- exp(cbind(
-  OR = coef(model_unadjusted),
-  confint(model_unadjusted)
-))
-
-or_unadjusted
-
-
 # -------------------------
-# Adjusted logistic regression
-# Model 1: Adjusted for age, sex, and poverty
+# Model 2: Adjusted for age, sex, and poverty
 # -------------------------
 
-model_adjusted <- glm(
+model_adjusted <- svyglm(
   no_care_binary ~ insured_factor + age_group + sex + poverty,
-  data = chs,
-  family = binomial
+  design = chs_design,
+  family = quasibinomial()
 )
 
 summary(model_adjusted)
 
-
 # -------------------------
-# Adjusted logistic regression
-# Model 2: Also adjusted for race/ethnicity
+# Model 3: Also adjusted for race/ethnicity
 # -------------------------
 
-model_adjusted_race <- glm(
+model_adjusted_race <- svyglm(
   no_care_binary ~ insured_factor + age_group + sex + poverty + race,
-  data = chs,
-  family = binomial
+  design = chs_design,
+  family = quasibinomial()
 )
 
 summary(model_adjusted_race)
-
 
 # -------------------------
 # Create clean odds ratio tables
@@ -91,6 +108,9 @@ or_adjusted_race <- tidy(
   conf.int = TRUE
 )
 
+or_unadjusted
+or_adjusted
+or_adjusted_race
 
 # -------------------------
 # Save results
@@ -100,24 +120,26 @@ if (!dir.exists("output")) {
   dir.create("output")
 }
 
-write.csv(or_unadjusted,
-          "output/logistic_regression_unadjusted.csv",
-          row.names = FALSE)
+write.csv(
+  or_unadjusted,
+  "output/logistic_regression_unadjusted_weighted.csv",
+  row.names = FALSE
+)
 
-write.csv(or_adjusted,
-          "output/logistic_regression_adjusted.csv",
-          row.names = FALSE)
+write.csv(
+  or_adjusted,
+  "output/logistic_regression_adjusted_weighted.csv",
+  row.names = FALSE
+)
 
-write.csv(or_adjusted_race,
-          "output/logistic_regression_adjusted_race.csv",
-          row.names = FALSE)
-
+write.csv(
+  or_adjusted_race,
+  "output/logistic_regression_adjusted_race_weighted.csv",
+  row.names = FALSE
+)
 
 # -------------------------
-# Forest plot for fully adjusted model
-# -------------------------
-# -------------------------
-# Forest plot for fully adjusted model
+# Forest plot for fully adjusted weighted model
 # -------------------------
 
 forest_data <- or_adjusted_race %>%
@@ -125,23 +147,28 @@ forest_data <- or_adjusted_race %>%
   mutate(
     term_clean = case_when(
       
+      # Insurance
       term == "insured_factorNo" ~ "Uninsured",
       
+      # Sex
       term == "sexFemale" ~ "Female",
       
-      term == "age_group2" ~ "Age Group 2",
-      term == "age_group3" ~ "Age Group 3",
-      term == "age_group4" ~ "Age Group 4",
+      # Age
+      term == "age_group25–44" ~ "Age 25–44",
+      term == "age_group45–64" ~ "Age 45–64",
+      term == "age_group65+" ~ "Age 65+",
       
-      term == "poverty2" ~ "100–199% FPL",
-      term == "poverty3" ~ "200–399% FPL",
-      term == "poverty4" ~ "400–599% FPL",
-      term == "poverty5" ~ "600%+ FPL",
+      # Poverty
+      term == "poverty100–199% FPL" ~ "100–199% FPL",
+      term == "poverty200–399% FPL" ~ "200–399% FPL",
+      term == "poverty400–599% FPL" ~ "400–599% FPL",
+      term == "poverty600%+ FPL" ~ "600%+ FPL",
       
-      term == "race2" ~ "Race Group 2",
-      term == "race3" ~ "Race Group 3",
-      term == "race4" ~ "Race Group 4",
-      term == "race5" ~ "Race Group 5",
+      # Race
+      term == "raceBlack" ~ "Black",
+      term == "raceHispanic" ~ "Hispanic",
+      term == "raceAsian/PI" ~ "Asian/Pacific Islander",
+      term == "raceOther" ~ "Other Race",
       
       TRUE ~ term
     )
@@ -157,26 +184,24 @@ forest_plot <- ggplot(
   geom_point() +
   geom_errorbar(
     aes(xmin = conf.low, xmax = conf.high),
-    width = 0.2,
-    orientation = "y"
+    width = 0.2
   ) +
   geom_vline(xintercept = 1, linetype = "dashed") +
   scale_x_log10() +
   labs(
-    title = "Adjusted Odds Ratios for Unmet Medical Need",
+    title = "Survey-Weighted Adjusted Odds Ratios for Unmet Medical Need",
     subtitle = "NYC Community Health Survey, 2020",
     x = "Odds Ratio (log scale)",
     y = ""
   ) +
   theme_minimal()
 
-# Display plot
 print(forest_plot)
 
-# Save plot
 ggsave(
-  filename = "output/adjusted_odds_ratios_forest_plot.png",
+  filename = "output/adjusted_odds_ratios_forest_plot_weighted.png",
   plot = forest_plot,
   width = 8,
   height = 6
 )
+
