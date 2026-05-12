@@ -24,13 +24,13 @@ The analysis was conducted in R and includes:
 
 ## Results
 
-In unadjusted logistic regression analyses, uninsured respondents had 1.68 times the odds of reporting unmet medical need compared to insured respondents.
+In survey-weighted unadjusted logistic regression analyses, uninsured NYC adults had higher odds of reporting unmet medical need compared with insured adults.
 
-After adjusting for age, sex, poverty status, and race/ethnicity, uninsured respondents continued to have higher odds of unmet medical need, suggesting that insurance coverage remained independently associated with access to care.
+After adjusting for age, sex, poverty status, and race/ethnicity, uninsured respondents continued to have higher odds of unmet medical need, suggesting that insurance coverage remained independently associated with healthcare access.
 
-Lower-income respondents experienced higher levels of unmet medical need even among the insured, indicating that socioeconomic barriers to care persist beyond insurance coverage alone.
+Lower-income respondents experienced higher weighted prevalence of unmet medical need even among the insured, indicating that socioeconomic barriers to care persist beyond insurance coverage alone.
 
-Differences in odds of unmet medical need were also observed across age and racial/ethnic groups, highlighting the complex demographic and socioeconomic factors associated with healthcare access in NYC.
+Survey-weighted analyses also demonstrated variation in unmet medical need across demographic groups, highlighting the complex social and structural factors associated with healthcare access in NYC.
 
 ---
 
@@ -60,5 +60,7 @@ Differences in odds of unmet medical need were also observed across age and raci
 ## Data Source
 
 Data were obtained from the 2020 NYC Community Health Survey (CHS).
+
+Analyses incorporated CHS survey weights and stratification variables to generate estimates representative of the NYC adult population.
 
 The raw dataset is not included in this repository. Publicly available CHS data can be accessed through the NYC Department of Health.
