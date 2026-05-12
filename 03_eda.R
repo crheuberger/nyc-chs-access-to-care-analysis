@@ -77,6 +77,15 @@ weighted_poverty <- svyby(
 weighted_poverty
 
 # -------------------------
+# Set plot colors
+# -------------------------
+
+insurance_colors <- c(
+  "Yes" = "#4E79A7",
+  "No" = "#E15759"
+)
+
+# -------------------------
 # Visualization 1:
 # Unmet care by insurance
 # -------------------------
@@ -85,16 +94,21 @@ unmet_care_plot <- ggplot(
   weighted_insurance,
   aes(x = insured_factor, y = no_care_binary, fill = insured_factor)
 ) +
-  geom_col() +
+  geom_col(width = 0.65) +
   geom_errorbar(
     aes(ymin = ci_l, ymax = ci_u),
-    width = 0.2
+    width = 0.15
   ) +
   geom_text(
     aes(label = percent(no_care_binary, accuracy = 0.1)),
-    vjust = -0.5
+    vjust = -0.6,
+    size = 4
   ) +
-  scale_y_continuous(labels = percent) +
+  scale_y_continuous(
+    labels = percent,
+    limits = c(0, max(weighted_insurance$ci_u, na.rm = TRUE) + 0.03)
+  ) +
+  scale_fill_manual(values = insurance_colors) +
   labs(
     title = "Weighted Prevalence of Unmet Medical Need by Insurance Status",
     subtitle = "NYC Community Health Survey, 2020",
@@ -102,8 +116,13 @@ unmet_care_plot <- ggplot(
     y = "Weighted Prevalence",
     fill = "Insurance Status"
   ) +
-  theme_minimal() +
-  theme(legend.position = "none")
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    panel.grid.minor = element_blank()
+  )
 
 unmet_care_plot
 
@@ -127,19 +146,26 @@ poverty_plot <- ggplot(
   weighted_poverty,
   aes(x = poverty, y = no_care_binary, fill = insured_factor)
 ) +
-  geom_col(position = position_dodge(width = 0.9)) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7
+  ) +
   geom_errorbar(
     aes(ymin = ci_l, ymax = ci_u),
-    position = position_dodge(width = 0.9),
+    position = position_dodge(width = 0.8),
     width = 0.2
   ) +
   geom_text(
     aes(label = percent(no_care_binary, accuracy = 0.1)),
-    position = position_dodge(width = 0.9),
-    vjust = -0.5,
+    position = position_dodge(width = 0.8),
+    vjust = -0.6,
     size = 3
   ) +
-  scale_y_continuous(labels = percent) +
+  scale_y_continuous(
+    labels = percent,
+    limits = c(0, max(weighted_poverty$ci_u, na.rm = TRUE) + 0.04)
+  ) +
+  scale_fill_manual(values = insurance_colors) +
   labs(
     title = "Weighted Prevalence of Unmet Medical Need by Insurance Status and Poverty Group",
     subtitle = "NYC Community Health Survey, 2020",
@@ -147,7 +173,14 @@ poverty_plot <- ggplot(
     y = "Weighted Prevalence",
     fill = "Insurance Status"
   ) +
-  theme_minimal()
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "top",
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    axis.text.x = element_text(angle = 25, hjust = 1),
+    panel.grid.minor = element_blank()
+  )
 
 poverty_plot
 
