@@ -12,12 +12,13 @@ The analysis explores whether uninsured individuals are more likely to report no
 
 ## Methods
 
-Analyses were conducted in R using:
+The analysis was conducted in R and includes:
 
-- Descriptive statistics
-- Stratified analyses
-- Logistic regression
-- Data visualization with ggplot2
+- Data cleaning and variable recoding
+- Survey-weighted descriptive analysis
+- Weighted prevalence estimation
+- Survey-weighted logistic regression
+- Data visualization using ggplot2
 
 ---
 
@@ -36,14 +37,14 @@ Differences in odds of unmet medical need were also observed across age and raci
 ## Example Visualization
 ### Unmet Medical Need by Insurance Status
 
-![Insurance Plot](unmet_care_by_insurance.png)
+![Insurance Plot](unmet_care_by_insurance_weighted.png)
 
 ### Unmet Medical Need by Insurance Status and Poverty
 
-![Poverty Plot](unmet_care_by_insurance_poverty.png)
+![Poverty Plot](unmet_care_by_insurance_poverty_weighted.png)
 
 ### Adjusted Odds Ratios for Unmet Medical Need
-![Adjusted Odds Ratios](adjusted_odds_ratios_forest_plot.png)
+![Adjusted Odds Ratios](adjusted_odds_ratios_forest_plot_weighted.png)
 
 ---
 
@@ -51,8 +52,8 @@ Differences in odds of unmet medical need were also observed across age and raci
 
 - `01_load_data.R` — loads raw CHS SAS dataset
 - `02_clean_data.R` — cleans and recodes analytic variables
-- `03_eda.R` — exploratory analyses and visualizations
-- `04_analysis.R` — logistic regression analyses
+- `03_eda.R` — weighted exploratory analyses and visualizations
+- `04_analysis.R` — weighted logistic regression analyses
 
 ---
 
