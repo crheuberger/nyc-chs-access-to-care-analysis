@@ -46,11 +46,7 @@ Lower-income respondents experienced higher weighted prevalence of unmet medical
 
 ![Heatmap Plot](unmet_care_heatmap_weighted.png)
 
-This heatmap displays the survey-weighted prevalence of unmet medical need across race/ethnicity and poverty groups.
-
-Higher prevalence of unmet medical need was generally observed among lower-income respondents across multiple racial/ethnic groups. Hispanic respondents in lower-income categories experienced some of the highest levels of unmet medical need, highlighting the potential intersection of socioeconomic and demographic disparities in healthcare access.
-
-As a descriptive visualization, the heatmap is intended to identify population-level patterns rather than establish causal relationships.
+Higher prevalence of unmet medical need was generally observed among lower-income respondents across multiple racial/ethnic groups, with particularly elevated prevalence among Hispanic respondents in lower-income categories.
 
 
 ### Adjusted Odds Ratios for Unmet Medical Need
